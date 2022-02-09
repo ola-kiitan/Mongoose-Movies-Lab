@@ -1,0 +1,8 @@
+{{#with celebrityFromDb}}
+  <h1>About the African Greatest</h1>
+  <h2> {{name}}</h2>
+  <h3>{{occupation}}</h3>
+  <p>{{catchPhrase}}</p>
+  <a href='/celebrities/edit/{{_id}}'>edit</a>
+  <a href='/celebrities/delete/{{_id}}'>delete</a>
+{{/with}}

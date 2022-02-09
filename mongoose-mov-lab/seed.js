@@ -1,14 +1,17 @@
 const mongoose = require('mongoose')
 const Celebrity = require('./models/Celebrity')
+const Movie = require('./models/Movie')
 
 // ℹ️ Sets the MongoDB URI for our app to have access to it.
 // If no env has been set, we dynamically set it to whatever the folder name was upon the creation of the app
 
-const MONGO_URI =
-  process.env.MONGODB_URI || 'mongodb://localhost/mongoose-mov-lab'
+// const connectionString =
+//   process.env.MONGO_URI || 'mongodb://localhost/mongoose-mov-lab'
 
 mongoose
-  .connect('mongodb://localhost/mongoose-mov-lab')
+  .connect(
+    'mongodb+srv://olayinka:SqhcQamOLXhWfPdL@cluster0.mlrmz.mongodb.net/mongoose-mov-lab?retryWrites=true&w=majority'
+  )
   .then((x) => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -36,7 +39,7 @@ const celebrities = [
 
 Celebrity.insertMany(celebrities)
   .then((celebrities) => {
-    console.log(`Success - added ${celebrities.length} books to the db`)
+    console.log(`Success - added ${celebrities.length} celebrities to the db`)
     mongoose.connection.close()
   })
   .catch((err) => console.log(err))
