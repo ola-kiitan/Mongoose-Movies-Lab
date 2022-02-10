@@ -1,7 +1,27 @@
 const router = require('express').Router()
 const Celebrity = require('../models/Celebrity')
+const Movie = require('../models/Movie')
 
 /* GET home page */
+/* Start of Movies */
+router.get('/movies/new', (req, res, next) => {
+  Celebrity.find()
+    .then((celebrities) => {
+      res.render('movie/new', { celebrities: celebrities })
+    })
+    .catch((err) => next(err))
+})
+router.post('/movies', (req, res, next) => {
+  const { title, genre, plot, cast } = req.body
+  Movie.create({ title, genre, plot, cast })
+    .then((newMovie) => {
+      res.render('movie/all', { newMovie: newMovie, cast })
+    })
+    .catch((err) => next(err))
+})
+
+/* end of Movies*/
+
 router.get('/', (req, res, next) => {
   res.render('home', { title: 'The celebrity page' })
 })
@@ -20,8 +40,8 @@ router.get('/celebrities/new', (req, res, next) => {
 router.post('/celebrities', (req, res, next) => {
   const { name, occupation, catchPhrase } = req.body
   Celebrity.create({ name, occupation, catchPhrase })
-    .then((newCeleb) => {
-      res.redirect(`/celebrities/${newCeleb._id}`)
+    .then(() => {
+      res.redirect('/celebrities/')
     })
     .catch((err) => next(err))
 })
@@ -47,7 +67,7 @@ router.post('/celebrities/update/:id', (req, res, next) => {
   const { name, occupation, catchPhrase } = req.body
   const id = req.params.id
   Celebrity.findByIdAndUpdate(
-    req.params.id,
+    id,
     { name, occupation, catchPhrase },
     { new: true }
   )
